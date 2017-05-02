@@ -1,0 +1,35 @@
+<!ELEMENT log (context, actions)>
+<!ELEMENT context (data, budget)>
+<!ELEMENT data (direction, men, contracts)>
+<!ELEMENT direction (#PCDATA)>
+<!ATTLIST direction dir (S|N|W|E) #REQUIRED>
+<!ELEMENT men (#PCDATA)>
+<!ELEMENT contracts (contract*)>
+<!ELEMENT contract (amount, resource)>
+<!ELEMENT amount (#PCDATA)>
+<!ELEMENT resource (quantity?, difficulty?, percent?, amount?) >
+<!ATTLIST resource name CDATA #REQUIRED>
+<!ELEMENT quantity (#PCDATA)>
+<!ELEMENT difficulty (#PCDATA)>
+<!ELEMENT percent (#PCDATA)>
+<!ELEMENT budget (#PCDATA)>
+<!ELEMENT actions (turn*)>
+<!ELEMENT turn (action, answer)>
+<!ELEMENT action (direction?, resource*, creek?, people?, range?)>
+<!ELEMENT creek (#PCDATA)>
+<!ELEMENT people (#PCDATA)>
+<!ELEMENT range (#PCDATA)>
+<!ATTLIST action type CDATA #REQUIRED>
+<!ELEMENT answer (cost, extras)>
+<!ATTLIST answer status (OK|KO) #REQUIRED>
+<!ELEMENT cost (#PCDATA)>
+<!ELEMENT extras (altitude?, found?, range?, amount?, resource*, tile*, biomes?, sites?)>
+<!ELEMENT found (#PCDATA)>
+<!ELEMENT altitude (#PCDATA)>
+<!ELEMENT biomes (biome*)>
+<!ELEMENT biome (#PCDATA)>
+<!ELEMENT sites (emergency?, landing?)>
+<!ELEMENT emergency (#PCDATA)>
+<!ELEMENT landing (#PCDATA)>
+<!ELEMENT tile (resource*)>
+<!ATTLIST tile range CDATA #REQUIRED>

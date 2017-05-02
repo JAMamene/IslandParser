@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<!DOCTYPE log SYSTEM "islands.dtd">
+<log>
+
+    <context>
+        <data>
+            <direction dir ="S">
+            </direction>
+            <men>15</men>
+            <contracts>
+                <contract>
+                    <amount>500</amount>
+                    <resource name="GLASS">
+                    </resource>
+                </contract>
+            </contracts>
+        </data>
+        <budget>20000</budget>
+    </context>
+
+    <actions>
+
+        <turn>
+            <action type="echo">
+                <direction dir="E">
+                </direction>
+            </action>
+            <answer status="OK">
+                <cost>6</cost>
+                <extras>
+                    <found>OUT_OF_RANGE</found>
+                    <range>49</range>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="heading">
+                <direction dir="E">
+                </direction>
+            </action>
+            <answer status="OK">
+                <cost>6</cost>
+                <extras>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="fly">
+            </action>
+            <answer status="OK">
+                <cost>3</cost>
+                <extras>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="stop">
+            </action>
+            <answer status="OK">
+                <cost>85</cost>
+                <extras>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="transform">
+                <resource name="WOOD">
+                    <amount>5</amount>
+                </resource>
+                <resource name="QUARTZ">
+                    <amount>10</amount>
+                </resource>
+            </action>
+            <answer status="OK">
+                <cost>75</cost>
+                <extras>
+                    <resource name="GLASS">
+                        <amount>25</amount>
+                    </resource>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="exploit">
+                <resource name="QUARTZ">
+                </resource>
+            </action>
+            <answer status="OK">
+                <cost>8</cost>
+                <extras>
+                    <amount>5</amount>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="explore">
+            </action>
+            <answer status="OK">
+                <cost>85</cost>
+                <extras>
+                    <resource name="QUARTZ">
+                        <quantity>HIGH</quantity>
+                        <difficulty>FAIR</difficulty>
+                    </resource>
+                    <resource name="WOOD">
+                        <quantity>LOW</quantity>
+                        <difficulty>FAIR</difficulty>
+                    </resource>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="move_to">
+            </action>
+            <answer status="OK">
+                <cost>8</cost>
+                <extras>
+                </extras>
+            </answer>
+        </turn>
+
+
+        <turn>
+            <action type="land">
+                <creek>97979</creek>
+                <people>8</people>
+            </action>
+            <answer status="OK">
+                <cost>8</cost>
+                <extras>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="scan">
+            </action>
+            <answer status="OK">
+                <cost>8</cost>
+                <extras>
+                    <biomes>
+                        <biome>BEACH</biome>
+                        <biome>OCEAN</biome>
+                    </biomes>
+                    <sites>
+                        <emergency>4697</emergency>
+                        <landing>79797999</landing>
+                    </sites>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="scout">
+                <direction dir="E">
+                </direction>
+            </action>
+            <answer status="OK">
+                <cost>8</cost>
+                <extras>
+                    <altitude>0</altitude>
+                    <resource name="FISH">
+                    </resource>
+                </extras>
+            </answer>
+        </turn>
+
+        <turn>
+            <action type="glimpse">
+                <direction dir="E">
+                </direction>
+                <range>3</range>
+            </action>
+            <answer status="OK">
+                <cost>8</cost>
+                <extras>
+                    <tile range="1">
+                        <resource name="OCEAN">
+                            <percent>59.35</percent>
+                        </resource>
+                        <resource name="BEACH">
+                            <percent>40.65</percent>
+                        </resource>
+                    </tile>
+                    <tile range="2">
+                        <resource name="BEACH">
+                        </resource>
+                    </tile>
+                </extras>
+            </answer>
+        </turn>
+
+    </actions>
+</log>
