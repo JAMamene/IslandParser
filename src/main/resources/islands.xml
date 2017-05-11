@@ -118,6 +118,7 @@
 
         <turn>
             <action type="move_to">
+                <direction dir="E"/>
             </action>
             <answer status="OK">
                 <cost>8</cost>
