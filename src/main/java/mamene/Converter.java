@@ -57,7 +57,9 @@ public class Converter {
         Transformer transformer = tf.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.transform(domSource, result);
-        bw.write(writer.toString());
+        String content = writer.toString();
+        content = content.replaceFirst("\n", "\n<?xml-stylesheet type=\"text/css\" href=\"style.css\"?>\n");
+        bw.write(content);
         bw.close();
     }
 
