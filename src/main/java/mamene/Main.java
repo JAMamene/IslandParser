@@ -16,7 +16,6 @@ public class Main {
         XMLAnalyzer anal = new XMLAnalyzer("output.xml");
         System.out.println("Nombre d'actions: " + anal.getNbAction());
         System.out.println("Ressources collectées : " + anal.getResourcesCollected());
-        System.out.println("Actions costs : " + anal.getMeanCostofAction(""));
         System.out.println("Summary :" + anal.getSummary(""));
         System.out.println("Budget Total: " + anal.getTotalBudget());
     }
