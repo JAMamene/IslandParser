@@ -81,7 +81,8 @@ public class XMLAnalyzer {
                 }
                 if (answer != null) {
                     int qty = Integer.parseInt(
-                            ((Element) ((Element) answer).getElementsByTagName("extras").item(0))
+                            ((Element) ((Element) answer)
+                                    .getElementsByTagName("extras").item(0))
                                     .getElementsByTagName("amount")
                                     .item(0)
                                     .getTextContent()
@@ -95,6 +96,14 @@ public class XMLAnalyzer {
                     .getNamedItem("type")
                     .getTextContent()
                     .equals("transform")) {
+                NodeList nodeList2 = ((Element) nodeList.item(i)).getElementsByTagName("resource");
+                for (int j = 0; j < nodeList2.getLength(); ++j) {
+                    String usedResName = ((Element) nodeList2.item(j)).getAttribute("name");
+                    int qtytoDeduce = Integer.parseInt(((Element)
+                            (nodeList2.item(j)))
+                            .getElementsByTagName("amount").item(0).getTextContent());
+                    resourceQuants.add(new ResourceQuant(usedResName, -qtytoDeduce));
+                }
                 Node answer = nodeList.item(i).getNextSibling();
                 while (!(answer instanceof Element) && answer != null) {
                     answer = answer.getNextSibling();
@@ -132,14 +141,25 @@ public class XMLAnalyzer {
 
     private Double getCostForTurn(Node node) {
         return Double.parseDouble(
-                ((Element) ((Element) node).getElementsByTagName("answer").item(0)).getElementsByTagName("cost").item(0).getTextContent()
+                ((Element) ((Element) node).getElementsByTagName("answer").item(0))
+                        .getElementsByTagName("cost")
+                        .item(0)
+                        .getTextContent()
         );
     }
 
     private DoubleStream getActionCostAsStream(String name) {
         return getAllTurns()
                 .stream()
-                .filter(node -> name.equals(ALL) || ((((Element) ((Element) node).getElementsByTagName("action").item(0)).getAttribute("type").equals(name))))
+                .filter(
+                        node -> name.equals(ALL)
+                                || (
+                                ((Element) ((Element) node).getElementsByTagName("action").item(0))
+                                        .getAttribute("type")
+                                        .equals(name)
+                        )
+
+                )
                 .mapToDouble(this::getCostForTurn);
     }
 
