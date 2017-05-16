@@ -9,7 +9,16 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -39,6 +48,19 @@ public class Converter {
         }
     }
 
+    public void save() throws IOException, TransformerException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("output.xml"));
+        DOMSource domSource = new DOMSource(document);
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.transform(domSource, result);
+        bw.write(writer.toString());
+        bw.close();
+    }
+
     private void convertInitial() {
         Element context = document.createElement("context");
         root.appendChild(context);
@@ -53,7 +75,7 @@ public class Converter {
         data.appendChild(direction);
 
         Element men = document.createElement("men");
-        men.setNodeValue(Integer.toString(initData.getInt("men")));
+        men.setTextContent(Integer.toString(initData.getInt("men")));
         data.appendChild(men);
 
         Element contracts = document.createElement("contracts");
@@ -64,7 +86,7 @@ public class Converter {
             Element contract = document.createElement("contract");
             contracts.appendChild(contract);
             Element amount = document.createElement("amount");
-            amount.setNodeValue(Integer.toString(contractJson.getInt("amount")));
+            amount.setTextContent(Integer.toString(contractJson.getInt("amount")));
             contract.appendChild(amount);
             Element resource = document.createElement("resource");
             resource.setAttribute("name", contractJson.getString("resource"));
@@ -72,7 +94,7 @@ public class Converter {
         }
 
         Element budget = document.createElement("budget");
-        budget.setNodeValue(Integer.toString(initial.getInt("budget")));
+        budget.setTextContent(Integer.toString(initData.getInt("budget")));
         data.appendChild(budget);
     }
 
@@ -89,11 +111,11 @@ public class Converter {
         turn.appendChild(action);
 
         Element answer = document.createElement("answer");
-        answer.setAttribute("status", answerJson.getString("status"));
+        answer.setAttribute("status", dataAnswer.getString("status"));
         turn.appendChild(answer);
 
         Element cost = document.createElement("cost");
-        cost.setNodeValue(Integer.toString(dataAnswer.getInt("cost")));
+        cost.setTextContent(Integer.toString(dataAnswer.getInt("cost")));
         answer.appendChild(cost);
 
         Element extras = document.createElement("extras");
@@ -102,62 +124,137 @@ public class Converter {
     }
 
     private void addExtras(Element action, Element extras, String actionType, JSONObject dataAction, JSONObject extrasJson) {
-        if (actionType.equals("echo") || actionType.equals("heading") || actionType.equals("move_to")
-                || actionType.equals("scout") || actionType.equals("glimpse")) {
-            Element direction = document.createElement("direction");
-            direction.setAttribute("dir", dataAction.getJSONObject("parameters").getString("direction"));
-            action.appendChild(direction);
+        switch (actionType) {
+            case "echo":
+            case "heading":
+            case "move_to":
+            case "scout":
+            case "glimpse":
+                Element direction = document.createElement("direction");
+                direction.setAttribute("dir", dataAction.getJSONObject("parameters").getString("direction"));
+                action.appendChild(direction);
 
-            if (actionType.equals("echo")) {
-                Element found = document.createElement("found");
-                found.setNodeValue(extrasJson.getString("found"));
-                extras.appendChild(found);
+                if (actionType.equals("echo")) {
+                    Element found = document.createElement("found");
+                    found.setTextContent(extrasJson.getString("found"));
+                    extras.appendChild(found);
 
-                Element range = document.createElement("found");
-                range.setNodeValue(Integer.toString(extrasJson.getInt("range")));
-                extras.appendChild(range);
-            }
-        } else if (actionType.equals("transform")) {
-            Map<String, Object> map = dataAction.getJSONObject("parameters").toMap();
-            for (String key : map.keySet()) {
+                    Element range = document.createElement("found");
+                    range.setTextContent(Integer.toString(extrasJson.getInt("range")));
+                    extras.appendChild(range);
+                }
+
+                if (actionType.equals("scout")) {
+                    Element altitude = document.createElement("altitude");
+                    altitude.setTextContent(Integer.toString(extrasJson.getInt("altitude")));
+                    extras.appendChild(altitude);
+                    for (Object o : extrasJson.getJSONArray("resources")) {
+                        Element resource = document.createElement("resource");
+                        resource.setAttribute("name", o.toString());
+                        extras.appendChild(resource);
+                    }
+                }
+
+                if (actionType.equals("glimpse")) {
+                    int tileIndex = 0;
+                    for (Object o : extrasJson.getJSONArray("report")) {
+                        tileIndex++;
+                        Element tile = document.createElement("tile");
+                        tile.setAttribute("range", Integer.toString(tileIndex));
+                        extras.appendChild(tile);
+                        if (o instanceof JSONArray) {
+                            for (int i = 0; i < ((JSONArray) o).length(); i += 2) {
+                                Element resource = document.createElement("resource");
+                                resource.setAttribute("name", ((JSONArray) o).getString(i));
+                                tile.appendChild(resource);
+                                Element percent = document.createElement("percent");
+                                percent.setTextContent(Integer.toString(((JSONArray) o).getInt(i + 1)));
+                                resource.appendChild(percent);
+                            }
+                        } else {
+                            Element resource = document.createElement("resource");
+                            resource.setAttribute("name", o.toString());
+                            tile.appendChild(resource);
+                        }
+                    }
+                }
+                break;
+            case "transform": {
+                Map<String, Object> map = dataAction.getJSONObject("parameters").toMap();
+                for (String key : map.keySet()) {
+                    Element resource = document.createElement("resource");
+                    resource.setAttribute("name", key);
+                    action.appendChild(resource);
+
+                    Element amount = document.createElement("amount");
+                    amount.setTextContent(Integer.toString((Integer) map.get(key)));
+                    resource.appendChild(amount);
+                }
                 Element resource = document.createElement("resource");
-                resource.setAttribute("name", key);
+                resource.setAttribute("name", extrasJson.getString("kind"));
+                extras.appendChild(resource);
+
+                Element amount = document.createElement("amount");
+                amount.setTextContent(Integer.toString(extrasJson.getInt("production")));
+                resource.appendChild(amount);
+                break;
+            }
+            case "exploit": {
+                Element resource = document.createElement("resource");
+                resource.setAttribute("name", dataAction.getJSONObject("parameters").getString("resource"));
                 action.appendChild(resource);
 
                 Element amount = document.createElement("amount");
-                amount.setNodeValue(Integer.toString((Integer) map.get(key)));
-                resource.appendChild(amount);
+                amount.setTextContent(Integer.toString(extrasJson.getInt("amount")));
+                extras.appendChild(amount);
+                break;
             }
-            Element resource = document.createElement("resource");
-            resource.setAttribute("name", extrasJson.getString("kind"));
-            extras.appendChild(resource);
+            case "explore":
+                for (Object o : extrasJson.getJSONArray("resources")) {
+                    JSONObject resourceJson = (JSONObject) o;
+                    Element resource = document.createElement("resource");
+                    resource.setAttribute("name", resourceJson.getString("resource"));
+                    extras.appendChild(resource);
 
-            Element amount = document.createElement("amount");
-            amount.setNodeValue(Integer.toString(extrasJson.getInt("production")));
-            resource.appendChild(amount);
-        } else if (actionType.equals("exploit")) {
-            Element resource = document.createElement("resource");
-            resource.setAttribute("name", dataAction.getJSONObject("parameters").getString("resource"));
-            action.appendChild(resource);
+                    Element quantity = document.createElement("quantity");
+                    quantity.setTextContent(resourceJson.getString("amount"));
+                    resource.appendChild(quantity);
 
-            Element amount = document.createElement("amount");
-            amount.setNodeValue(Integer.toString(extrasJson.getInt("amount")));
-            extras.appendChild(amount);
-        } else if (actionType.equals("explore")) {
-            for (Object o : extrasJson.getJSONArray("resources")) {
-                JSONObject resourceJson = (JSONObject) o;
-                Element resource = document.createElement("resource");
-                resource.setAttribute("name", resourceJson.getString("resource"));
-                extras.appendChild(resource);
+                    Element difficulty = document.createElement("difficulty");
+                    difficulty.setTextContent(resourceJson.getString("cond"));
+                    resource.appendChild(difficulty);
+                }
+                break;
+            case "land":
+                Element creek = document.createElement("creek");
+                creek.setTextContent(dataAction.getJSONObject("parameters").getString("creek"));
+                action.appendChild(creek);
 
-                Element quantity = document.createElement("quantity");
-                quantity.setNodeValue(resourceJson.getString("amount"));
-                resource.appendChild(quantity);
-
-                Element difficulty = document.createElement("difficulty");
-                difficulty.setNodeValue(resourceJson.getString("cond"));
-                resource.appendChild(difficulty);
-            }
+                Element people = document.createElement("people");
+                people.setTextContent(Integer.toString(dataAction.getJSONObject("parameters").getInt("people")));
+                action.appendChild(people);
+                break;
+            case "scan":
+                Element biomes = document.createElement("biomes");
+                extras.appendChild(biomes);
+                for (Object o : extrasJson.getJSONArray("biomes")) {
+                    Element biome = document.createElement("biome");
+                    biome.setTextContent(o.toString());
+                    biomes.appendChild(biome);
+                }
+                Element sites = document.createElement("sites");
+                extras.appendChild(sites);
+                for (Object o : extrasJson.getJSONArray("sites")) {
+                    Element emergency = document.createElement("emergency");
+                    emergency.setTextContent(o.toString());
+                    sites.appendChild(emergency);
+                }
+                for (Object o : extrasJson.getJSONArray("creeks")) {
+                    Element landing = document.createElement("creek");
+                    landing.setTextContent(o.toString());
+                    sites.appendChild(landing);
+                }
+                break;
         }
     }
 

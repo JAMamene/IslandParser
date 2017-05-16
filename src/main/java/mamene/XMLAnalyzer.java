@@ -13,13 +13,13 @@ import java.util.stream.DoubleStream;
 
 public class XMLAnalyzer {
 
-    private Document doc;
     public static final String ALL = "";
+    private Document doc;
 
     public XMLAnalyzer(String fileName) {
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            File inputFile = new File(classloader.getResource(fileName).getPath());
+            File inputFile = new File(fileName);
             DocumentBuilderFactory dbFactory
                     = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -28,6 +28,17 @@ public class XMLAnalyzer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        XMLAnalyzer xml = new XMLAnalyzer("islands.xml");
+        System.out.println(xml.getNbAction());
+        System.out.println(xml.getMeanCostofAction("fly"));
+        System.out.println(xml.getMeanCostofAction(ALL));
+        System.out.println(xml.getSummary("fly"));
+        System.out.println(xml.getSummary(ALL));
+        System.out.println(xml.getTotalBudget());
+        System.out.println(xml.getResourcesCollected());
     }
 
     public int getNbAction() {
@@ -45,6 +56,8 @@ public class XMLAnalyzer {
     public double getTotalBudget() {
         return getActionCostAsStream(ALL).sum();
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Map<String, Integer> getResourcesCollected() {
         List<ResourceQuant> resourceQuants = new ArrayList<>();
@@ -108,8 +121,6 @@ public class XMLAnalyzer {
         return aggregate(resourceQuants);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private List<Node> getAllTurns() {
         List<Node> values = new ArrayList<>();
         NodeList nodeList = doc.getElementsByTagName("turn");
@@ -132,6 +143,17 @@ public class XMLAnalyzer {
                 .mapToDouble(this::getCostForTurn);
     }
 
+    private Map<String, Integer> aggregate(List<ResourceQuant> resourceQuants) {
+        Map<String, Integer> hm = new HashMap<>();
+        for (ResourceQuant rq : resourceQuants) {
+            String name = rq.getResource();
+            int value = hm.containsKey(name) ? hm.get(name) : 0;
+            value += rq.getQuantity();
+            hm.put(name, value);
+        }
+        return hm;
+    }
+
     private class ResourceQuant {
 
         private String resource;
@@ -149,27 +171,5 @@ public class XMLAnalyzer {
         public int getQuantity() {
             return quantity;
         }
-    }
-
-    private Map<String, Integer> aggregate(List<ResourceQuant> resourceQuants) {
-        Map<String, Integer> hm = new HashMap<>();
-        for (ResourceQuant rq : resourceQuants) {
-            String name = rq.getResource();
-            int value = hm.containsKey(name) ? hm.get(name) : 0;
-            value += rq.getQuantity();
-            hm.put(name, value);
-        }
-        return hm;
-    }
-
-    public static void main(String[] args) {
-        XMLAnalyzer xml = new XMLAnalyzer("islands.xml");
-        System.out.println(xml.getNbAction());
-        System.out.println(xml.getMeanCostofAction("fly"));
-        System.out.println(xml.getMeanCostofAction(ALL));
-        System.out.println(xml.getSummary("fly"));
-        System.out.println(xml.getSummary(ALL));
-        System.out.println(xml.getTotalBudget());
-        System.out.println(xml.getResourcesCollected());
     }
 }
