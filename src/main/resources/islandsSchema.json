@@ -44,7 +44,15 @@
                     "creek": "string",
                     "people": "integer",
                     "resource": "string",
-                    "range":"integer"
+                    "range": "integer",
+                    "WOOD":"integer",
+                    "QUARTZ":"integer",
+                    "FISH":"integer",
+                    "FLOWER":"integer",
+                    "FRUITS":"integer",
+                    "FUR":"integer",
+                    "ORE":"integer",
+                    "SUGAR_CANE":"integer"
                   }
                 }
               }
@@ -58,7 +66,16 @@
                 "extras": {
                   "type": "object",
                   "properties": {
+                    "altitude":"integer",
+                    "production":"integer",
+                    "kind":"string",
+                    "found":"string",
+                    "range":"integer",
                     "amount": "integer",
+                    "resources":{
+                      "type": "array",
+
+                    }
                     "creeks": {
                       "type": "array",
                       "items": [
@@ -77,16 +94,19 @@
                         "string"
                       ]
                     },
-                    "asked_range":"integer",
-                    "report":{
-                      "type":"array",
-                      "items":[{
-                        "type":"object"
-                      }
-
+                    "asked_range": "integer",
+                    "report": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "array",
+                          "items": [
+                            "string",
+                            "integer"
+                          ]
+                        }
                       ]
                     }
-
                   }
                 }
               }

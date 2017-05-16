@@ -244,15 +244,14 @@ public class Converter {
                     biome.setTextContent(o.toString());
                     biomes.appendChild(biome);
                 }
-                if (extrasJson.getJSONArray("sites").length() == 0) {
-                    break;
-                }
                 Element sites = document.createElement("sites");
                 extras.appendChild(sites);
-                for (Object o : extrasJson.getJSONArray("sites")) {
-                    Element emergency = document.createElement("emergency");
-                    emergency.setTextContent(o.toString());
-                    sites.appendChild(emergency);
+                if (extrasJson.getJSONArray("sites").length() != 0) {
+                    for (Object o : extrasJson.getJSONArray("sites")) {
+                        Element emergency = document.createElement("emergency");
+                        emergency.setTextContent(o.toString());
+                        sites.appendChild(emergency);
+                    }
                 }
                 for (Object o : extrasJson.getJSONArray("creeks")) {
                     Element landing = document.createElement("landing");
