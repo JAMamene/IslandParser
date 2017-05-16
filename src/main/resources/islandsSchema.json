@@ -80,7 +80,9 @@
                     "asked_range":"integer",
                     "report":{
                       "type":"array",
-                      "items":[
+                      "items":[{
+                        "type":"object"
+                      }
 
                       ]
                     }

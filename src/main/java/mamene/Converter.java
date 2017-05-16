@@ -255,7 +255,7 @@ public class Converter {
                     sites.appendChild(emergency);
                 }
                 for (Object o : extrasJson.getJSONArray("creeks")) {
-                    Element landing = document.createElement("creek");
+                    Element landing = document.createElement("landing");
                     landing.setTextContent(o.toString());
                     sites.appendChild(landing);
                 }
