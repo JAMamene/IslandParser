@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Islands log file",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "part": "string",
+        "time": "long",
+        "meth": "string",
+        "data": {
+          "oneOf": [
+            {
+              "description": "Explorer init data",
+              "type": "object",
+              "properties": {
+                "heading": "string",
+                "men": "integer",
+                "budget": "integer",
+                "contracts": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "amount": "integer",
+                        "resource": "string"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "Action template",
+              "type": "object",
+              "properties": {
+                "action": "string",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "direction": "string",
+                    "creek": "string",
+                    "people": "integer",
+                    "resource": "string",
+                    "range":"integer"
+                  }
+                }
+              }
+            },
+            {
+              "description": "Answer template",
+              "type": "object",
+              "properties": {
+                "cost": "integer",
+                "status": "string",
+                "extras": {
+                  "type": "object",
+                  "properties": {
+                    "amount": "integer",
+                    "creeks": {
+                      "type": "array",
+                      "items": [
+                        "string"
+                      ]
+                    },
+                    "sites": {
+                      "type": "array",
+                      "items": [
+                        "string"
+                      ]
+                    },
+                    "biomes": {
+                      "type": "array",
+                      "items": [
+                        "string"
+                      ]
+                    },
+                    "asked_range":"integer",
+                    "report":{
+                      "type":"array",
+                      "items":[
+
+                      ]
+                    }
+
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

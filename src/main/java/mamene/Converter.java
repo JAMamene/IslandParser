@@ -244,6 +244,9 @@ public class Converter {
                     biome.setTextContent(o.toString());
                     biomes.appendChild(biome);
                 }
+                if (extrasJson.getJSONArray("sites").length() == 0) {
+                    break;
+                }
                 Element sites = document.createElement("sites");
                 extras.appendChild(sites);
                 for (Object o : extrasJson.getJSONArray("sites")) {
