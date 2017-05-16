@@ -139,7 +139,7 @@ public class Converter {
                     found.setTextContent(extrasJson.getString("found"));
                     extras.appendChild(found);
 
-                    Element range = document.createElement("found");
+                    Element range = document.createElement("range");
                     range.setTextContent(Integer.toString(extrasJson.getInt("range")));
                     extras.appendChild(range);
                 }
