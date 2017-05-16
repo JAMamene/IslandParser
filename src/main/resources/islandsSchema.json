@@ -5,6 +5,7 @@
   "items": [
     {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "part": "string",
         "time": "long",
@@ -14,8 +15,15 @@
             {
               "description": "Explorer init data",
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "heading": "string",
+                "enum": [
+                  "W",
+                  "S",
+                  "E",
+                  "N"
+                ],
                 "men": "integer",
                 "budget": "integer",
                 "contracts": {
@@ -23,6 +31,7 @@
                   "items": [
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "amount": "integer",
                         "resource": "string"
@@ -30,90 +39,216 @@
                     }
                   ]
                 }
-              }
+              },
+              "required": [
+                "heading",
+                "men",
+                "budget",
+                "contracts"
+              ]
             },
             {
               "description": "Action template",
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "action": "string",
                 "parameters": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "direction": "string",
+                    "enum": [
+                      "W",
+                      "S",
+                      "E",
+                      "N"
+                    ],
                     "creek": "string",
                     "people": "integer",
                     "resource": "string",
                     "range": "integer",
-                    "WOOD":"integer",
-                    "QUARTZ":"integer",
-                    "FISH":"integer",
-                    "FLOWER":"integer",
-                    "FRUITS":"integer",
-                    "FUR":"integer",
-                    "ORE":"integer",
-                    "SUGAR_CANE":"integer"
+                    "WOOD": "integer",
+                    "QUARTZ": "integer",
+                    "FISH": "integer",
+                    "FLOWER": "integer",
+                    "FRUITS": "integer",
+                    "FUR": "integer",
+                    "ORE": "integer",
+                    "SUGAR_CANE": "integer"
                   }
                 }
-              }
+              },
+              "required": [
+                "actions",
+                "parameters"
+              ]
             },
             {
               "description": "Answer template",
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "cost": "integer",
                 "status": "string",
                 "extras": {
-                  "type": "object",
-                  "properties": {
-                    "altitude":"integer",
-                    "production":"integer",
-                    "kind":"string",
-                    "found":"string",
-                    "range":"integer",
-                    "amount": "integer",
-                    "resources":{
-                      "type": "array",
-
-                    }
-                    "creeks": {
-                      "type": "array",
-                      "items": [
-                        "string"
+                  "oneOf": [
+                    {
+                      "description": "Echo answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "found": "string",
+                        "range": "integer"
+                      },
+                      "required": [
+                        "found",
+                        "range"
                       ]
                     },
-                    "sites": {
-                      "type": "array",
-                      "items": [
-                        "string"
-                      ]
+                    {
+                      "description": "no extras",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {}
                     },
-                    "biomes": {
-                      "type": "array",
-                      "items": [
-                        "string"
-                      ]
-                    },
-                    "asked_range": "integer",
-                    "report": {
-                      "type": "array",
-                      "items": [
-                        {
+                    {
+                      "description": "scan answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creeks": {
                           "type": "array",
                           "items": [
-                            "string",
-                            "integer"
+                            "string"
+                          ]
+                        },
+                        "sites": {
+                          "type": "array",
+                          "items": [
+                            "string"
+                          ]
+                        },
+                        "biomes": {
+                          "type": "array",
+                          "items": [
+                            "string"
                           ]
                         }
+                      },
+                      "required": [
+                        "creeks",
+                        "sites",
+                        "biomes"
+                      ]
+                    },
+                    {
+                      "description": "glimpse answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "asked_range": "integer",
+                        "report": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "array",
+                              "items": [
+                                "string",
+                                "integer"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "asked_range",
+                        "report"
+                      ]
+                    },
+                    {
+                      "description": "scout answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "altitude": "integer",
+                        "resources": {
+                          "type": "array",
+                          "items": [
+                            "string"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "altitude",
+                        "resources"
+                      ]
+                    },
+                    {
+                      "description": "transform answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "production": "integer",
+                        "kind": "string"
+                      },
+                      "required": [
+                        "production",
+                        "kind"
+                      ]
+                    },
+                    {
+                      "description": "explore answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "resources": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "amount": "string",
+                                "resource": "string",
+                                "cond": "string"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "resources"
+                      ]
+                    },
+                    {
+                      "description": "exploit answer",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amount": "integer"
+                      },
+                      "required": [
+                        "amount"
                       ]
                     }
-                  }
+                  ]
                 }
-              }
+              },
+              "required": [
+                "cost",
+                "status",
+                "extras"
+              ]
             }
           ]
         }
-      }
+      },
+      "required": [
+        "part",
+        "time",
+        "meth",
+        "data"
+      ]
     }
   ]
 }

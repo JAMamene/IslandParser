@@ -23,16 +23,30 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
+/**
+ * Converts a Json trace to its xml equivalent.
+ */
 public class Converter {
 
     private JSONArray mainArray;
     private Document document;
     private Element root;
 
+    /**
+     * Constructor.
+     *
+     * @param filename the path of the document
+     * @throws IOException if failing to open the file
+     */
     public Converter(String filename) throws IOException {
         mainArray = new JSONArray(new String(Files.readAllBytes(Paths.get(filename))));
     }
 
+    /**
+     * Creates a Document equivalent to the json input.
+     *
+     * @throws ParserConfigurationException if failing to initialize the document
+     */
     public void convert() throws ParserConfigurationException {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         document = builder.newDocument();
@@ -48,6 +62,12 @@ public class Converter {
         }
     }
 
+    /**
+     * Saves the converted document to output.xml.
+     *
+     * @throws IOException          if failing to write the file
+     * @throws TransformerException if failing to transform the document content
+     */
     public void save() throws IOException, TransformerException {
         BufferedWriter bw = new BufferedWriter(new FileWriter("output.xml"));
         DOMSource domSource = new DOMSource(document);
@@ -63,6 +83,9 @@ public class Converter {
         bw.close();
     }
 
+    /**
+     * Converts the first json object of the trace main array (initialization data)
+     */
     private void convertInitial() {
         Element context = document.createElement("context");
         root.appendChild(context);
@@ -100,6 +123,13 @@ public class Converter {
         data.appendChild(budget);
     }
 
+    /**
+     * Converts a specific action to its turn equivalent.
+     *
+     * @param actionJson the json object containing the action
+     * @param answerJson the json object containing the answer
+     * @param actions    the document element to add the actions to
+     */
     private void convertAction(JSONObject actionJson, JSONObject answerJson, Element actions) {
         JSONObject dataAction = actionJson.getJSONObject("data");
         JSONObject dataAnswer = answerJson.getJSONObject("data");
@@ -125,6 +155,15 @@ public class Converter {
         addExtras(action, extras, actionType, dataAction, dataAnswer.getJSONObject("extras"));
     }
 
+    /**
+     * Processes the elements specific to one type of action: the action parameters and its answer extras.
+     *
+     * @param action     the document element of the action
+     * @param extras     the document element of the extras
+     * @param actionType the type of the action
+     * @param dataAction the json object of the action parameters
+     * @param extrasJson the json object of the answer extras
+     */
     private void addExtras(Element action, Element extras, String actionType, JSONObject dataAction, JSONObject extrasJson) {
         switch (actionType) {
             case "echo":
