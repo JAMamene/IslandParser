@@ -69,6 +69,7 @@ actions {
 }
 
 turn {
+    cursor: pointer;
     display: block;
     width: 95%;
     background-color: ghostwhite;
@@ -81,6 +82,10 @@ turn {
 
 turn:hover, context:hover {
     transform: scale(1.02);
+}
+
+turn:active {
+    transform: scale(0.98);
 }
 
 action {
