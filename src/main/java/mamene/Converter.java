@@ -205,12 +205,10 @@ public class Converter {
                         extras.appendChild(tile);
                         if (o instanceof JSONArray) {
                             for (int i = 0; i < ((JSONArray) o).length(); i += 2) {
-                                Element resource = document.createElement("resource");
-                                resource.setAttribute("name", ((JSONArray) o).getString(i));
-                                tile.appendChild(resource);
-                                Element percent = document.createElement("percent");
-                                percent.setTextContent(Integer.toString(((JSONArray) o).getInt(i + 1)));
-                                resource.appendChild(percent);
+                                Element biome = document.createElement("biome");
+                                biome.setAttribute("percent", Integer.toString(((JSONArray) o).getInt(i + 1)));
+                                biome.setNodeValue(((JSONArray) o).getString(i));
+                                tile.appendChild(biome);
                             }
                         } else {
                             Element resource = document.createElement("resource");
