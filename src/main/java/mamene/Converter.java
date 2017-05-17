@@ -63,27 +63,6 @@ public class Converter {
     }
 
     /**
-     * Saves the converted document to output.xml.
-     *
-     * @throws IOException          if failing to write the file
-     * @throws TransformerException if failing to transform the document content
-     */
-    public void save() throws IOException, TransformerException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter("output.xml"));
-        DOMSource domSource = new DOMSource(document);
-        StringWriter writer = new StringWriter();
-        StreamResult result = new StreamResult(writer);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(domSource, result);
-        String content = writer.toString();
-        content = content.replaceFirst("\n", "\n<?xml-stylesheet type=\"text/css\" href=\"style.css\"?>\n");
-        bw.write(content);
-        bw.close();
-    }
-
-    /**
      * Converts the first json object of the trace main array (initialization data)
      */
     private void convertInitial() {
@@ -297,6 +276,29 @@ public class Converter {
                 }
                 break;
         }
+    }
+
+    /**
+     * Saves the converted document to output.xml.
+     *
+     * @throws IOException          if failing to write the file
+     * @throws TransformerException if failing to transform the document content
+     */
+    public void save() throws IOException, TransformerException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("output.xml"));
+        DOMSource domSource = new DOMSource(document);
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.transform(domSource, result);
+        String content = writer.toString();
+        content = content.replaceFirst("\n", "\n<?xml-stylesheet type=\"text/css\" href=\"style.css\"?>\n");
+        content = content.replaceFirst("<log>", "<log>\n<script xmlns=\"http://www.w3.org/1999/xhtml\" src=\"jquery-3.2.1.min.js\"></script>\n" +
+                "<script xmlns=\"http://www.w3.org/1999/xhtml\" src=\"main.js\"></script>\n");
+        bw.write(content);
+        bw.close();
     }
 
 }
