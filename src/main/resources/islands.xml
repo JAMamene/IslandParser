@@ -182,16 +182,11 @@
                 <cost>8</cost>
                 <extras>
                     <tile range="1">
-                        <resource name="OCEAN">
-                            <percent>59.35</percent>
-                        </resource>
-                        <resource name="BEACH">
-                            <percent>40.65</percent>
-                        </resource>
+                        <biome percent="58.56">OCEAN</biome>
+                        <biome percent="40.62">BEACH</biome>
                     </tile>
                     <tile range="2">
-                        <resource name="BEACH">
-                        </resource>
+                        <biome>OCEAN</biome>
                     </tile>
                 </extras>
             </answer>

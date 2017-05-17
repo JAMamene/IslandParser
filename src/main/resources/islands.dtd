@@ -28,8 +28,9 @@
 <!ELEMENT altitude (#PCDATA)>
 <!ELEMENT biomes (biome*)>
 <!ELEMENT biome (#PCDATA)>
+<!ATTLIST biome percent CDATA>
 <!ELEMENT sites (emergency?, landing?)>
 <!ELEMENT emergency (#PCDATA)>
 <!ELEMENT landing (#PCDATA)>
-<!ELEMENT tile (resource*)>
+<!ELEMENT tile (biome*)>
 <!ATTLIST tile range CDATA #REQUIRED>
