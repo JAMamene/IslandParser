@@ -1,0 +1,389 @@
+@font-face {
+    font-family: Rodin;
+    src: url(Rodin.ttf);
+}
+
+@font-face {
+    font-family: Rodin-bold;
+    src: url(Rodin-BOLD.ttf);
+}
+
+log {
+    background: url("mamene.jpg") fixed no-repeat center;
+    font-size: 125%;
+    font-family: Rodin, sans-serif;
+    margin-left: calc(10% + 320px);
+}
+
+context {
+    display: inline-block;
+    width: 25%;
+    min-width: 300px;
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: ghostwhite;
+    padding: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: scroll;
+    position: fixed;
+    top: 5%;
+    bottom: 5%;
+    left: 2%;
+    transition: all .2s ease-in-out;
+}
+
+context::-webkit-scrollbar {
+    display: none;
+}
+
+context:before {
+    display: block;
+    content: "CONTEXT";
+    font-size: 140%;
+    text-align: center;
+    margin-bottom: 10px;
+    color: white;
+    background-color: #6C7A89;
+    padding: 4px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+context:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin-top: 500px;
+    background: url("https://pbs.twimg.com/media/CWXqNGrWEAEfkBD.jpg") center;
+}
+
+actions {
+    display: inline-block;
+    margin-top: 30px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    min-width: 400px;
+}
+
+turn {
+    display: block;
+    width: 100%;
+    background-color: ghostwhite;
+    margin: auto auto 20px;
+    padding: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transition: all .2s ease-in-out;
+}
+
+turn:hover, context:hover{
+    transform: scale(1.02);
+}
+
+action {
+    color: white;
+    display: block;
+    margin-bottom: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+
+}
+
+turn:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+answer {
+    height: auto;
+}
+
+extras {
+    display: inline-block;
+    float: right;
+}
+
+data direction, data men, data contract, data budget {
+    display: block;
+    margin-bottom: 12px;
+}
+
+data direction:before {
+    font-family: Rodin-bold, sans-serif;
+    content: "Starting direction : ";
+}
+
+data men:before {
+    font-family: Rodin-bold, sans-serif;
+    content: "Men in crew : ";
+}
+
+data budget:before {
+    font-family: Rodin-bold, sans-serif;
+    content: "Available budget : ";
+}
+
+data amount:before {
+    font-family: Rodin-bold, sans-serif;
+    content: "";
+}
+
+found:before {
+    content: "Found ";
+}
+
+range:before {
+    content: " at range ";
+}
+
+biomes:before {
+    content: "Biomes : ";
+}
+
+contract:before {
+    font-family: Rodin-bold, sans-serif;
+    content: "Contract :";
+}
+
+creek:before {
+    content: "Creek : ";
+}
+
+creek:before {
+    content: "at creek : ";
+}
+
+people:before {
+    content: "with crew : ";
+}
+
+altitude:before {
+    content: "Found at altitude ";
+}
+
+altitude:after {
+    content: " : "
+}
+
+quantity:before {
+    content: " quantity ";
+}
+
+difficulty:before {
+    content: "difficulty ";
+}
+
+difficulty:after {
+    content: "   ";
+}
+
+emergency, landing {
+    font-family: Rodin-bold, sans-serif;
+}
+
+emergency:before {
+    content: ", Site : "
+}
+
+landing:before {
+    content: ", Creek : "
+}
+
+amount:before {
+    content: "Quantity : ";
+}
+
+direction[dir="E"]:after {
+    content: " (EAST)";
+}
+
+direction[dir="W"]:after {
+    content: " (WEST)";
+}
+
+direction[dir="S"]:after {
+    content: " (SOUTH)";
+}
+
+direction[dir="N"]:after {
+    content: " (NORTH)";
+}
+
+cost:before {
+    content: "COST : ";
+}
+
+cost:before {
+    content: "COST : ";
+}
+
+action:after {
+    height: 20px;
+    width: 100%;
+}
+
+action[type="echo"] {
+    background-color: #1F3A93;
+}
+
+action[type="echo"]:before {
+    content: "ECHO";
+}
+
+action[type="fly"] {
+    background-color: #89C4F4;
+}
+
+action[type="fly"]:before {
+    content: "FLY";
+}
+
+action[type="heading"] {
+    background-color: #5C97BF;
+}
+
+action[type="heading"]:before {
+    content: "HEADING";
+}
+
+action[type="scan"] {
+    background-color: #2574A9;
+}
+
+action[type="scan"]:before {
+    content: "SCAN";
+}
+
+action[type="stop"] {
+    background-color: #CF000F;
+}
+
+action[type="stop"]:before {
+    content: "STOP:";
+}
+
+action[type="land"] {
+    background-color: #E87E04;
+}
+
+action[type="land"]:before {
+    content: "LAND";
+}
+
+action[type="explore"] {
+    background-color: #4DAF7C;
+}
+
+action[type="explore"]:before {
+    content: "EXPLORE";
+}
+
+action[type="glimpse"] {
+    background-color: #A2DED0;
+}
+
+action[type="glimpse"]:before {
+    content: "GLIMPSE";
+}
+
+action[type="move_to"] {
+    background-color: #1E824C;
+}
+
+action[type="move_to"]:before {
+    content: "MOVE_TO";
+}
+
+action[type="scout"] {
+    background-color: #049372;
+}
+
+action[type="scout"]:before {
+    content: "SCOUT";
+}
+
+action[type="exploit"] {
+    background-color: #34495E;
+}
+
+action[type="exploit"]:before {
+    content: "EXPLOIT";
+}
+
+action[type="transform"] {
+    background-color: #22313F;
+}
+
+action[type="transform"]:before {
+    content: "TRANSFORM";
+}
+
+resource {
+    display: block;
+    float: right;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+contract > resource {
+    display: inline;
+    float: none;
+    margin: 0;
+}
+
+resource[name="WOOD"]:before {
+    content: "Wood ";
+}
+
+resource[name="FISH"]:before {
+    content: "Fish ";
+}
+
+resource[name="FLOWER"]:before {
+    content: "Flowers ";
+}
+
+resource[name="FRUITS"]:before {
+    content: "Fruits ";
+}
+
+resource[name="FUR"]:before {
+    content: "Fur ";
+}
+
+resource[name="ORE"]:before {
+    content: "Ore ";
+}
+
+resource[name="QUARTZ"]:before {
+    content: "Quartz ";
+}
+
+resource[name="SUGAR_CANE"]:before {
+    content: "Sugar cane ";
+}
+
+resource[name="GLASS"]:before {
+    content: "Glass ";
+}
+
+resource[name="INGOT"]:before {
+    content: "Ingots ";
+}
+
+resource[name="LEATHER"]:before {
+    content: "Leather ";
+}
+
+resource[name="PLANK"]:before {
+    content: "Planks ";
+}
+
+resource[name="RUM"]:before {
+    content: "Rum ";
+}
