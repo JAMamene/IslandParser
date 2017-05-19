@@ -9,7 +9,7 @@
 }
 
 log {
-    background: url("mamene.jpg") fixed no-repeat center;
+    background: url("bg.jpg") fixed no-repeat center;
     font-size: 125%;
     font-family: Rodin, sans-serif;
     margin-left: calc(10% + 310px);
@@ -112,6 +112,10 @@ answer {
 extras {
     display: inline-block;
     float: right;
+}
+
+tile {
+    display: block;
 }
 
 data direction, data men, data contract, data budget, block {
