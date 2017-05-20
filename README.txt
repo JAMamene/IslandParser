@@ -18,8 +18,8 @@
 
         Modélisation de la trace JSON sous forme XML
 
-    La trace JSON par l'éxécution du projet Islands consistent concrètement en une array
-    principale, contenat trois types d'objets distincts:
+    La trace JSON pour l'éxécution du projet Islands consiste concrètement en une array
+    principale, contenant trois types d'objets distincts:
         - L'objet unique contenant l'initialisation du contexte;
         - Un objet correspondant à une action d'un bot explorateur;
         - Un objet correspondant à la réponse du simulateur à cette action.
