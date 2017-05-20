@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?xml-stylesheet type="text/css" href="style.css"?>
+<?xml-stylesheet type="text/css" href="style/style.css"?>
+<!DOCTYPE log SYSTEM "islands.dtd">
 <log>
-<script xmlns="http://www.w3.org/1999/xhtml" src="jquery-3.2.1.min.js"></script>
-<script xmlns="http://www.w3.org/1999/xhtml" src="main.js"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="style/jquery-3.2.1.min.js"></script>
+<script xmlns="http://www.w3.org/1999/xhtml" src="style/main.js"></script>
 
 <context>
 <data>

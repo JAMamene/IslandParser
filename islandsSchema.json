@@ -7,9 +7,15 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "part": "string",
-        "time": "long",
-        "meth": "string",
+        "part": {
+          "type": "string"
+        },
+        "time": {
+          "type": "integer"
+        },
+        "meth": {
+          "type": "string"
+        },
         "data": {
           "oneOf": [
             {
@@ -17,15 +23,21 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "heading": "string",
-                "enum": [
-                  "W",
-                  "S",
-                  "E",
-                  "N"
-                ],
-                "men": "integer",
-                "budget": "integer",
+                "heading": {
+                  "type": "string",
+                  "enum": [
+                    "W",
+                    "S",
+                    "E",
+                    "N"
+                  ]
+                },
+                "men": {
+                  "type": "integer"
+                },
+                "budget": {
+                  "type": "integer"
+                },
                 "contracts": {
                   "type": "array",
                   "items": [
@@ -33,8 +45,12 @@
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "amount": "integer",
-                        "resource": "string"
+                        "amount": {
+                          "type": "integer"
+                        },
+                        "resource": {
+                          "type": "string"
+                        }
                       }
                     }
                   ]
@@ -52,30 +68,39 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "action": "string",
+                "action": {
+                  "type": "string"
+                },
                 "parameters": {
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
-                    "direction": "string",
-                    "enum": [
-                      "W",
-                      "S",
-                      "E",
-                      "N"
-                    ],
-                    "creek": "string",
-                    "people": "integer",
-                    "resource": "string",
-                    "range": "integer",
-                    "WOOD": "integer",
-                    "QUARTZ": "integer",
-                    "FISH": "integer",
-                    "FLOWER": "integer",
-                    "FRUITS": "integer",
-                    "FUR": "integer",
-                    "ORE": "integer",
-                    "SUGAR_CANE": "integer"
+                    "direction": {
+                      "type": "string",
+                      "enum": [
+                        "W",
+                        "S",
+                        "E",
+                        "N"
+                      ]
+                    },
+                    "creek": {
+                      "type": "string"
+                    },
+                    "people": {
+                      "type": "integer"
+                    },
+                    "resource": {
+                      "type": "string"
+                    },
+                    "range": {
+                      "type": "integer"
+                    }
+                  },
+                  "patternProperties": {
+                    "^[A-Z]+$": {
+                      "type": "integer"
+                    }
                   }
                 }
               },
@@ -89,8 +114,12 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "cost": "integer",
-                "status": "string",
+                "cost": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "string"
+                },
                 "extras": {
                   "oneOf": [
                     {
@@ -98,8 +127,12 @@
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "found": "string",
-                        "range": "integer"
+                        "found": {
+                          "type": "string"
+                        },
+                        "range": {
+                          "type": "integer"
+                        }
                       },
                       "required": [
                         "found",
@@ -120,19 +153,25 @@
                         "creeks": {
                           "type": "array",
                           "items": [
-                            "string"
+                            {
+                              "type": "string"
+                            }
                           ]
                         },
                         "sites": {
                           "type": "array",
                           "items": [
-                            "string"
+                            {
+                              "type": "string"
+                            }
                           ]
                         },
                         "biomes": {
                           "type": "array",
                           "items": [
-                            "string"
+                            {
+                              "type": "string"
+                            }
                           ]
                         }
                       },
@@ -147,15 +186,21 @@
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "asked_range": "integer",
+                        "asked_range": {
+                          "type": "integer"
+                        },
                         "report": {
                           "type": "array",
                           "items": [
                             {
                               "type": "array",
                               "items": [
-                                "string",
-                                "integer"
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
                               ]
                             }
                           ]
@@ -171,11 +216,15 @@
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "altitude": "integer",
+                        "altitude": {
+                          "type": "integer"
+                        },
                         "resources": {
                           "type": "array",
                           "items": [
-                            "string"
+                            {
+                              "type": "string"
+                            }
                           ]
                         }
                       },
@@ -189,8 +238,12 @@
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "production": "integer",
-                        "kind": "string"
+                        "production": {
+                          "type": "integer"
+                        },
+                        "kind": {
+                          "type": "string"
+                        }
                       },
                       "required": [
                         "production",
@@ -208,9 +261,15 @@
                             {
                               "type": "object",
                               "properties": {
-                                "amount": "string",
-                                "resource": "string",
-                                "cond": "string"
+                                "amount": {
+                                  "type": "string"
+                                },
+                                "resource": {
+                                  "type": "string"
+                                },
+                                "cond": {
+                                  "type": "string"
+                                }
                               }
                             }
                           ]
@@ -225,7 +284,9 @@
                       "type": "object",
                       "additionalProperties": false,
                       "properties": {
-                        "amount": "integer"
+                        "amount": {
+                          "type": "integer"
+                        }
                       },
                       "required": [
                         "amount"

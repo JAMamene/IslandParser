@@ -4,10 +4,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.DoubleStream;
 
@@ -21,7 +25,7 @@ public class XMLAnalyzer {
      *
      * @param fileName the file
      */
-    public XMLAnalyzer(String fileName) {
+    public XMLAnalyzer(String fileName) throws FileNotFoundException {
         try {
             File inputFile = new File(fileName);
             DocumentBuilderFactory dbFactory
@@ -29,7 +33,9 @@ public class XMLAnalyzer {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            throw e;
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
     }
@@ -52,6 +58,35 @@ public class XMLAnalyzer {
     public DoubleSummaryStatistics getSummary(String name) {
         return getActionCostAsStream(name).summaryStatistics();
     }
+
+    /**
+     * Build a stream with the cost of actions
+     *
+     * @param name action to stream ("" for all actions)
+     * @return a stream of actioncost (double)
+     */
+    private DoubleStream getActionCostAsStream(String name) {
+        return getAllTurns()
+                .stream()
+                .filter(node -> name.equals(ALL) || (((Element) ((Element) node).getElementsByTagName("action").item(0)).getAttribute("type").equals(name)))
+                .mapToDouble(this::getCostForTurn);
+    }
+
+    /**
+     * returns all turns as a list
+     *
+     * @return a list of nodes from the turns
+     */
+    private List<Node> getAllTurns() {
+        List<Node> values = new ArrayList<>();
+        NodeList nodeList = doc.getElementsByTagName("turn");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            values.add(nodeList.item(i));
+        }
+        return values;
+    }
+
+    /////////////////////////////////////////////////// PRIVATE METHODS ////////////////////////////////////////////////
 
     /**
      * return the total cost of all actions
@@ -119,20 +154,21 @@ public class XMLAnalyzer {
         return aggregate(resourceQuants);
     }
 
-    /////////////////////////////////////////////////// PRIVATE METHODS ////////////////////////////////////////////////
-
     /**
-     * returns all turns as a list
+     * private method to aggregate resources by their quantity
      *
-     * @return a list of nodes from the turns
+     * @param resourceQuants pairs of resource and quantity to aggregate
+     * @return a map of all resources collected and their quantity
      */
-    private List<Node> getAllTurns() {
-        List<Node> values = new ArrayList<>();
-        NodeList nodeList = doc.getElementsByTagName("turn");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            values.add(nodeList.item(i));
+    private Map<String, Integer> aggregate(List<ResourceQuant> resourceQuants) {
+        Map<String, Integer> hm = new HashMap<>();
+        for (ResourceQuant rq : resourceQuants) {
+            String name = rq.getResource();
+            int value = hm.getOrDefault(name, 0);
+            value += rq.getQuantity();
+            hm.put(name, value);
         }
-        return values;
+        return hm;
     }
 
     /**
@@ -145,36 +181,6 @@ public class XMLAnalyzer {
         return Double.parseDouble(
                 ((Element) ((Element) node).getElementsByTagName("answer").item(0)).getElementsByTagName("cost").item(0).getTextContent()
         );
-    }
-
-    /**
-     * Build a stream with the cost of actions
-     *
-     * @param name action to stream ("" for all actions)
-     * @return a stream of actioncost (double)
-     */
-    private DoubleStream getActionCostAsStream(String name) {
-        return getAllTurns()
-                .stream()
-                .filter(node -> name.equals(ALL) || (((Element) ((Element) node).getElementsByTagName("action").item(0)).getAttribute("type").equals(name)))
-                .mapToDouble(this::getCostForTurn);
-    }
-
-    /**
-     * private method to aggregate resources by their quantity
-     *
-     * @param resourceQuants pairs of resource and quantity to aggregate
-     * @return a map of all resources collected and their quantity
-     */
-    private Map<String, Integer> aggregate(List<ResourceQuant> resourceQuants) {
-        Map<String, Integer> hm = new HashMap<>();
-        for (ResourceQuant rq : resourceQuants) {
-            String name = rq.getResource();
-            int value = hm.containsKey(name) ? hm.get(name) : 0;
-            value += rq.getQuantity();
-            hm.put(name, value);
-        }
-        return hm;
     }
 
     /**

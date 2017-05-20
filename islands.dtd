@@ -1,6 +1,8 @@
-<!ELEMENT log (context, actions)>
-<!ELEMENT context (data, budget)>
-<!ELEMENT data (direction, men, contracts)>
+<!ELEMENT log (script*, context, actions)>
+<!ELEMENT script (#PCDATA)>
+<!ATTLIST script xmlns CDATA #REQUIRED src CDATA #REQUIRED>
+<!ELEMENT context (data)>
+<!ELEMENT data (direction, men, contracts, budget)>
 <!ELEMENT direction (#PCDATA)>
 <!ATTLIST direction dir (S|N|W|E) #REQUIRED>
 <!ELEMENT men (#PCDATA)>
@@ -28,7 +30,7 @@
 <!ELEMENT altitude (#PCDATA)>
 <!ELEMENT biomes (biome*)>
 <!ELEMENT biome (#PCDATA)>
-<!ATTLIST biome percent CDATA>
+<!ATTLIST biome percent CDATA #IMPLIED>
 <!ELEMENT sites (emergency?, landing?)>
 <!ELEMENT emergency (#PCDATA)>
 <!ELEMENT landing (#PCDATA)>
