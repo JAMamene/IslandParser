@@ -79,3 +79,5 @@
     Enfin nous avons rajouté une petite surcouche javascript totalement optionnelle, qui se
     contente de rendre les actions clickable pour avoir plus d'information dessus et
     d'afficher quelques statistiques calculées à partir du contexte.
+
+    (Testé sous google chrome)

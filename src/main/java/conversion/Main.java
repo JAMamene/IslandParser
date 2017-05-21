@@ -5,12 +5,15 @@ import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException {
+        System.out.println("mamene :" + Arrays.toString(args));
         if (args.length == 0 || !new File(args[0]).exists()) {
             System.out.println("Could not find json log input");
+            System.exit(1);
         }
         Converter c = new Converter(args[0]);
         c.convert();
